@@ -7,18 +7,34 @@ server.use(cors());
 server.use(bodyParser.json());
 
 const users = [];
-
 const tweets = [];
 
 server.post("/sign-up", (request, response) => {
-  //console.log(request.body);
-  //response.send("Ok");
   users.push({
     username: request.body.username,
     avatar: request.body.avatar,
   });
-  console.log(users);
   response.send("OK");
+});
+
+server.post("/tweets", (request, response) => {
+  const user = users.find((user) => user.username === request.body.username);
+  tweets.push({
+    username: user.username,
+    avatar: user.avatar,
+    tweet: request.body.tweet,
+  });
+  response.send("Ok");
+});
+
+server.get("/tweets", (request, response) => {
+  response.send([
+    {
+      username: "joao",
+      avatar: "https://rollingstone.uol.com.br/media/uploads/killbill.jpg",
+      tweet: "test",
+    },
+  ]);
 });
 
 server.listen(5000);
