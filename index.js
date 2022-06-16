@@ -28,13 +28,7 @@ server.post("/tweets", (request, response) => {
 });
 
 server.get("/tweets", (request, response) => {
-  response.send([
-    {
-      username: "joao",
-      avatar: "https://rollingstone.uol.com.br/media/uploads/killbill.jpg",
-      tweet: "test",
-    },
-  ]);
+  response.send(tweets.slice(-10));
 });
 
 server.listen(5000);
