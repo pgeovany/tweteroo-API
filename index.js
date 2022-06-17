@@ -1,10 +1,9 @@
-import express, { application, response } from "express";
-import bodyParser from "body-parser";
+import express from "express";
 import cors from "cors";
 
 const server = express();
 server.use(cors());
-server.use(bodyParser.json());
+server.use(express.json());
 
 const users = [];
 const tweets = [];
@@ -19,7 +18,7 @@ server.post("/sign-up", (request, response) => {
 
 server.post("/tweets", (request, response) => {
   const user = users.find((user) => user.username === request.body.username);
-  tweets.push({
+  tweets.unshift({
     username: user.username,
     avatar: user.avatar,
     tweet: request.body.tweet,
