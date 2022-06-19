@@ -21,10 +21,10 @@ server.post("/sign-up", (request, response) => {
 });
 
 server.post("/tweets", (request, response) => {
-  if (!request.body.username || !request.body.tweet) {
+  if (!request.headers.user || !request.body.tweet) {
     response.status(400).send("Todos os campos são obrigatórios!");
   } else {
-    const user = users.find((user) => user.username === request.body.username);
+    const user = users.find((user) => user.username === request.headers.user);
     tweets.unshift({
       username: user.username,
       avatar: user.avatar,
@@ -36,6 +36,12 @@ server.post("/tweets", (request, response) => {
 
 server.get("/tweets", (request, response) => {
   response.send(tweets.slice(-10));
+});
+
+server.get("/tweets/:username", (request, response) => {
+  const user = request.params.username;
+  const userTweets = tweets.filter((tweet) => tweet.username === user);
+  response.send(userTweets);
 });
 
 function isValidURL(url) {
