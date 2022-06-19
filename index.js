@@ -35,7 +35,13 @@ server.post("/tweets", (request, response) => {
 });
 
 server.get("/tweets", (request, response) => {
-  response.send(tweets.slice(-10));
+  const page = parseInt(request.query.page);
+  if (page === 0) {
+    response.status(400).send("Informe uma página válida!");
+  } else {
+    const startingIndex = (page - 1) * 10;
+    response.send(tweets.slice(startingIndex, page * 10));
+  }
 });
 
 server.get("/tweets/:username", (request, response) => {
