@@ -1,4 +1,4 @@
-import express from "express";
+import express, { request, response } from "express";
 import cors from "cors";
 
 const server = express();
@@ -21,7 +21,7 @@ server.post("/sign-up", (request, response) => {
 });
 
 server.post("/tweets", (request, response) => {
-  if (!request.body.username.length || !request.body.tweet.length) {
+  if (!request.body.username || !request.body.tweet) {
     response.status(400).send("Todos os campos são obrigatórios!");
   } else {
     const user = users.find((user) => user.username === request.body.username);
